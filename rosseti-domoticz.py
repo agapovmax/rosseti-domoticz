@@ -1,7 +1,6 @@
 import requests
 import datetime
 import config
-import json
 from requests.auth import HTTPBasicAuth
 
 # Берем инфу из файла настроек
@@ -20,7 +19,6 @@ headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36',
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
     }
-
 params = {
     'fullAddress': conf['fulladdress'] + ', ' + conf['street'] + ', ' + conf['house'],
     'region':  conf['region'],
@@ -31,10 +29,15 @@ params = {
 
 r = requests.get(url, headers=headers, params = params).json()
 
-for item in r['items']:
-    result = ( item['Description'] + ' отключение по адресу ' + item['Address'] + ' c ' + item['From'] + ' по ' + item['To'] + ' ' + item['Condition'])
-    print('Есть запись: ')
-    print(result)
+# Проверяем, есть ли работы
+count = r.get('TotalCount')
+if count == 0:
+    result = 'С ' + fromdate + ' по ' + todate + ' нет плановых работ'
+else:
+    for item in r['items']:
+        result = ( item['Description'] + ' отключение по адресу ' + item['Address'] + ' c ' + item['From'] + ' по ' + item['To'] + ' ' + item['Condition'])
+        print('Есть запись: ')
+        print(result)
 
 # Проверяем текущее значение idx в domoticz
 d_url = 'http://' + conf['domoticz_server'] + ':' + conf['domoticz_port'] + '/json.htm?'
@@ -74,13 +77,5 @@ else:
         f.write(str(fulltime) + '; ' + result + '\n')
         f.close()
         s = requests.post(d_url,headers=d_headers,params=du_params, auth=HTTPBasicAuth(conf['username'], conf['password']))
-#        print(s.url)
-#        print(s.text)
     else:
         print('Нечего обновлять')
-
-
-
-
-
-
