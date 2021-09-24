@@ -39,5 +39,7 @@ python3 ./rosseti-domoticz.py
 
 All data logging to .rosseti-domoticz.txt
 
+# Result 
+![](https://1.bp.blogspot.com/-ZX85M8ZF3OY/YUys9Fa7XGI/AAAAAAAAeFo/mN2NMGlohLoG5lWHYVbFtD4D1WbXEjCmwCLcBGAsYHQ/w400-h295/Add-text-sensor-new.JPG)
 # Read more 
 https://magapov.blogspot.com/2021/09/rosseti-domoticz-pro.html
