@@ -10,7 +10,7 @@ For example - notify with telegram\sms about new event (please use DzVents\Block
 
 # Installation
 
-git clone <%repasitoryname%>
+git clone https://github.com/agapovmax/rosseti-domoticz.git
 
 pip3 install -U .requirements.txt
 
