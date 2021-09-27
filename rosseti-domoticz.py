@@ -13,7 +13,7 @@ fulltime = datetime.datetime.now()
 currdate = datetime.datetime.today()
 todate = (datetime.datetime.today()).strftime("%d.%m.%Y")
 fromdate = (currdate - datetime.timedelta(days=int(days))).strftime("%d.%m.%Y")
-
+print('Сегодня: ' + todate)
 # Достаем адрес из названия виртуального датчика (idx) в domoticz
 d_url = 'http://' + conf['domoticz_server'] + ':' + conf['domoticz_port'] + '/json.htm?'
 d_headers = {
@@ -88,10 +88,10 @@ else:
     if d_result != result:
         print('Обновляем запись...')
         # Пишем в файл данные
-        # Открываем лог файл для записи
         f = open('rosseti-domoticz.txt', 'a')
         f.write(str(fulltime) + '; ' + result + '\n')
         f.close()
+        print('Новая запись: ' + result)
         s = requests.post(d_url,headers=d_headers,params=du_params, auth=HTTPBasicAuth(conf['username'], conf['password']))
     else:
-        print('Нечего обновлять')
+        print('Нечего обновлять, завершаем работу...')
