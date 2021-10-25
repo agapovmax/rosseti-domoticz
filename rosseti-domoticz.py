@@ -22,9 +22,9 @@ d_headers = {
 }
 d_params = {
     'type' : 'devices',
-    'rid' : conf['domoticz_idx']
+    'rid' : conf['domoticz_data_idx']
 }
-d_check = requests.get(d_url, headers=d_headers, params=d_params, auth=HTTPBasicAuth(conf['username'], conf['password'])).json()
+d_check = requests.get(d_url, headers=d_headers, params=d_params, auth=HTTPBasicAuth(conf['domoticz_username'], conf['domoticz_password'])).json()
 
 for item in d_check['result']:
     d_address = item['Name']
@@ -65,9 +65,9 @@ d_headers = {
 }
 d_params = {
     'type' : 'devices',
-    'rid' : conf['domoticz_idx']
+    'rid' : conf['domoticz_data_idx']
 }
-d_check = requests.get(d_url, headers=d_headers, params=d_params, auth=HTTPBasicAuth(conf['username'], conf['password'])).json()
+d_check = requests.get(d_url, headers=d_headers, params=d_params, auth=HTTPBasicAuth(conf['domoticz_username'], conf['domoticz_password'])).json()
 
 for item in d_check['result']:
     d_result = item['Data']
@@ -77,7 +77,7 @@ for item in d_check['result']:
 du_params = {
     'type' : 'command',
     'param': 'udevice',
-    'idx': conf['domoticz_idx'],
+    'idx': conf['domoticz_data_idx'],
     'nvalue': '0',
     'svalue' : result
     }
@@ -88,10 +88,10 @@ else:
     if d_result != result:
         print('Обновляем запись...')
         # Пишем в файл данные
-        f = open('rosseti-domoticz.txt', 'a')
+        f = open('rosseti-domoticz.log', 'a')
         f.write(str(fulltime) + '; ' + result + '\n')
         f.close()
         print('Новая запись: ' + result)
-        s = requests.post(d_url,headers=d_headers,params=du_params, auth=HTTPBasicAuth(conf['username'], conf['password']))
+        s = requests.post(d_url,headers=d_headers,params=du_params, auth=HTTPBasicAuth(conf['domoticz_username'], conf['domoticz_password']))
     else:
         print('Нечего обновлять, завершаем работу...')
